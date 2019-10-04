@@ -1,0 +1,22 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'idea'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.1.1'
+    compile group: 'io.cucumber', name: 'cucumber-jvm', version: '4.7.2', ext: 'pom'
+    compile group: 'io.cucumber', name: 'cucumber-testng', version: '4.7.2'
+}
+
+test {
+    useTestNG()
+    testLogging {
+        events 'PASSED', 'STARTED', 'FAILED', 'SKIPPED'
+    }
+}
