@@ -13,13 +13,8 @@ public class ProjectTest {
     public void testPUTProject() {
         //Given
         String expectedProjectName = "Rest Assured new";
-        Response response = RestAssured.given()
-                .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedProjectName + "\"}")
-                .post("/projects");
+        Response response = RequestManager.post(RequestSpec.getRequestSpec(), "/projects",
+                "{\"name\":\"" + expectedProjectName + "\"}");
 
         String actualProjectName = response.jsonPath().getString("name");
         Assert.assertEquals(actualProjectName, expectedProjectName);
@@ -27,13 +22,8 @@ public class ProjectTest {
         //When
         String projectId = response.jsonPath().getString("id");
         String expectedNewProjectName = "Test PUT";
-        response = RestAssured.given()
-                .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedNewProjectName + "\"}")
-                .put("/projects/" + projectId);
+        response = RequestManager.put(RequestSpec.getRequestSpec(), String.format("/projects/%s", projectId),
+                "{\"name\":\"" + expectedNewProjectName + "\"}");
 
         //Then
         actualProjectName = response.jsonPath().getString("name");
