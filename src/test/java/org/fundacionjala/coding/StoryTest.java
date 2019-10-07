@@ -13,7 +13,7 @@ public class StoryTest {
 
         //Given
         String expectedProjectName = "Rest Assured new1";
-        Response response = RestAssured.given(RequestSpec.getRequestSpec())
+        Response response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedProjectName + "\"}")
@@ -21,7 +21,7 @@ public class StoryTest {
         String projectId = response.jsonPath().getString("id");
 
         String storyName = "My Story";
-        response = RestAssured.given(RequestSpec.getRequestSpec())
+        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + storyName + "\"}")
@@ -30,7 +30,7 @@ public class StoryTest {
 
         // When
         String expectedNewStoryName= "New Story Name";
-        response = RestAssured.given(RequestSpec.getRequestSpec())
+        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedNewStoryName + "\"}")
