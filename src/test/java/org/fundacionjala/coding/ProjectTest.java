@@ -15,7 +15,7 @@ public class ProjectTest {
         String expectedProjectName = "Rest Assured new";
         Response response = RestAssured.given()
                 .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", "19d1e5ad024d2f6ed8f5e9e7e1c6f26a")
+                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedProjectName + "\"}")
@@ -29,7 +29,7 @@ public class ProjectTest {
         String expectedNewProjectName = "Test PUT";
         response = RestAssured.given()
                 .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", "19d1e5ad024d2f6ed8f5e9e7e1c6f26a")
+                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedNewProjectName + "\"}")

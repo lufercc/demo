@@ -15,7 +15,7 @@ public class StoryTest {
         String expectedProjectName = "Rest Assured new1";
         Response response = RestAssured.given()
                 .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", "19d1e5ad024d2f6ed8f5e9e7e1c6f26a")
+                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedProjectName + "\"}")
@@ -25,7 +25,7 @@ public class StoryTest {
         String storyName = "My Story";
         response = RestAssured.given()
                 .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", "19d1e5ad024d2f6ed8f5e9e7e1c6f26a")
+                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + storyName + "\"}")
@@ -36,7 +36,7 @@ public class StoryTest {
         String expectedNewStoryName= "New Story Name";
         response = RestAssured.given()
                 .baseUri("https://www.pivotaltracker.com/services/v5")
-                .header("X-TrackerToken", "19d1e5ad024d2f6ed8f5e9e7e1c6f26a")
+                .header("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"name\":\"" + expectedNewStoryName + "\"}")
