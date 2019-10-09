@@ -19,18 +19,16 @@ public class CommentStoryTest {
         Boolean isTasksEnabled = false;
         Boolean isEmailEnabled = false;
 
-        Response response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedProjectName + "\"," +
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"), "/projects",
+                "{\"name\":\"" + expectedProjectName + "\"," +
                         "\"description\": \"" + description +"\"," +
                         "\"project_type\": \"" + projectType +"\"," +
                         "\"public\": " + isPublic + "," +
                         "\"initial_velocity\": " + projectVelocity + "," +
                         "\"week_start_day\": \"" + weekStartDay + "\", " +
                         "\"enable_tasks\": " + isTasksEnabled + "," +
-                        "\"enable_incoming_emails\": " + isEmailEnabled +"}")
-                .post("/projects");
+                        "\"enable_incoming_emails\": " + isEmailEnabled +"}");
+
         String projectId = response.jsonPath().getString("id");
 
         //verification of project attributes from response
@@ -58,27 +56,20 @@ public class CommentStoryTest {
         String storyType = "feature";
 
         //Given
-        Response response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + projectName + "\"}")
-                .post("/projects");
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"), "/projects",
+                "{\"name\":\"" + projectName + "\"}");
         String projectId = response.jsonPath().getString("id");
 
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + storyName + "\", \"story_type\": \"" + storyType + "\"}")
-                .post(String.format("/projects/%s/stories", projectId));
+        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories", projectId),
+                "{\"name\":\"" + storyName + "\", \"story_type\": \"" + storyType + "\"}");
         String storyId = response.jsonPath().getString("id");
 
         //When
         String expectedNewStoryName= "Updated Story Name";
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedNewStoryName + "\" , \"labels\":[\"story\",\"majorpriority\"]}")
-                .put(String.format("/projects/%s/stories/%s", projectId, storyId));
+        response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s", projectId, storyId),
+                "{\"name\":\"" + expectedNewStoryName + "\" , \"labels\":[\"story\",\"majorpriority\"]}");
         Assert.assertEquals(response.jsonPath().getString("name"), expectedNewStoryName);
         Assert.assertEquals(response.jsonPath().getList("labels.name").size(), 2);
         Assert.assertTrue(response.jsonPath().getList("labels.name").contains("story"));
@@ -98,18 +89,13 @@ public class CommentStoryTest {
         String storyName = "Story1";
 
         //Given
-        Response response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + projectName + "\"}")
-                .post("/projects");
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                "/projects", "{\"name\":\"" + projectName + "\"}");
         String projectId = response.jsonPath().getString("id");
 
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + storyName + "\"}")
-                .post(String.format("/projects/%s/stories", projectId));
+        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories", projectId),
+                "{\"name\":\"" + storyName + "\"}");
         String storyId = response.jsonPath().getString("id");
 
         //When
@@ -117,21 +103,17 @@ public class CommentStoryTest {
         String expectedStoryComment = "First comment";
         String commitIdentifier = "comment001";
         String commitType = "github";
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"commit_identifier\":\"" + commitIdentifier + "\",\"commit_type\": \"" + commitType + "\" , " +
-                        "\"text\":\"" + expectedStoryComment + "\" }")
-                .post(String.format("/projects/%s/stories/%s/comments", projectId, storyId));
+        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s/comments", projectId, storyId),
+                "{\"commit_identifier\":\"" + commitIdentifier + "\",\"commit_type\": \"" + commitType + "\" , " +
+                        "\"text\":\"" + expectedStoryComment + "\" }");
         String commentId = response.jsonPath().getString("id");
 
         //update comment
         String expectedUpdatedStoryComment = "Updated comment";
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"text\":\"" + expectedUpdatedStoryComment + "\" }")
-                .put(String.format("/projects/%s/stories/%s/comments/%s", projectId, storyId, commentId));
+        response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s/comments/%s", projectId, storyId, commentId),
+                "{\"text\":\"" + expectedUpdatedStoryComment + "\" }");
 
         //verification of configured attributes from GET response
         response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
