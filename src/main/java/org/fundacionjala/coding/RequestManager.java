@@ -48,18 +48,4 @@ public class RequestManager {
         System.out.println(response.prettyPrint());
         return response;
     }
-
-    public static Response get(final RequestSpecification requestSpec, final String endpoint) {
-        return RestAssured.given(requestSpec)
-                .contentType(ContentType.JSON)
-                .when()
-                .get(endpoint);
-    }
-
-    public static Response delete(final RequestSpecification requestSpec, final String endpoint) {
-        return RestAssured.given(requestSpec)
-                .contentType(ContentType.JSON)
-                .when()
-                .delete(endpoint);
-    }
 }
