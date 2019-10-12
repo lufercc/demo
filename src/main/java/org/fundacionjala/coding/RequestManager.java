@@ -17,7 +17,7 @@ public class RequestManager {
     }
 
     public static Response put(final RequestSpecification requestSpec, final String endpoint,
-                                final String body) {
+                               final String body) {
         return RestAssured.given(requestSpec)
                 .contentType(ContentType.JSON)
                 .when()
