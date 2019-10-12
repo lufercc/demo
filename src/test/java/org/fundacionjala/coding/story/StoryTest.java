@@ -1,8 +1,10 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.coding.story;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
