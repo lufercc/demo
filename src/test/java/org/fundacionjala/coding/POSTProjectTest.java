@@ -10,7 +10,7 @@ public class POSTProjectTest {
     private String projectId;
 
     @Test
-    public void testPostProject() {
+    public void testPOSTProject() {
         String expectedProjectName = "Rest Assured new 1";
         Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
