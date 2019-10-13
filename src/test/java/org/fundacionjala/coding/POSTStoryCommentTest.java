@@ -6,7 +6,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class PUTStoryTest {
+public class POSTStoryCommentTest {
 
     private String projectId;
     private String storyId;
@@ -29,16 +29,16 @@ public class PUTStoryTest {
     }
 
     @Test
-    public void testPUTStory() {
+    public void testPOSTStoryComment() {
         //When
-        String expectedStoryString = "updated story";
-        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s", projectId, storyId),
-                "{\"name\":\"" + expectedStoryString + "\"}");
+        String expectedStoryCommentString = "story comment";
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s/comments", projectId, storyId),
+                "{\"text\":\"" + expectedStoryCommentString + "\"}");
 
         //Then
-        String actualStoryString = response.jsonPath().getString("name");
-        Assert.assertEquals(actualStoryString, expectedStoryString);
+        String actualStoryCommentString = response.jsonPath().getString("text");
+        Assert.assertEquals(actualStoryCommentString, expectedStoryCommentString);
     }
 
     @AfterTest

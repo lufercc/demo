@@ -27,8 +27,6 @@ public class DELETEStoryTest {
                 String.format("/projects/%s/stories", projectId),
                 "{\"name\":\"" + expectedStoryString + "\"}");
         storyId = response.jsonPath().getString("id");
-        System.out.println(projectId);
-        System.out.println(storyId);
     }
 
     @Test
