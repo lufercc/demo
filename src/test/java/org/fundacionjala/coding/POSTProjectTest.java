@@ -6,27 +6,18 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class PUTProjectTest {
+public class POSTProjectTest {
 
     private String projectId;
 
-    @BeforeTest
-    public void setUp() {
-        //Given
-        String expectedProjectName = "Put Project Test";
-        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
-                "/projects",
-                "{\"name\":\"" + expectedProjectName + "\"}");
-        projectId = response.jsonPath().getString("id");
-    }
-
     @Test
-    public void testPUTProject() {
+    public void testPOSTProject() {
         //When
         String expectedNewProjectName = "Test PUT 1";
-        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s", projectId),
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                "/projects",
                 "{\"name\":\"" + expectedNewProjectName + "\"}");
+        projectId = response.jsonPath().getString("id");
 
         //Then
         String actualProjectName = response.jsonPath().getString("name");
