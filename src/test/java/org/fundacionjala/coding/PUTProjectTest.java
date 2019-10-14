@@ -13,7 +13,7 @@ public class PUTProjectTest {
     @BeforeTest
     public void setUp() {
         //Given
-        String expectedProjectName = "Rest Assured new 1";
+        String expectedProjectName = "Rest Assured new Project1";
         Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
                 "{\"name\":\"" + expectedProjectName + "\"}");

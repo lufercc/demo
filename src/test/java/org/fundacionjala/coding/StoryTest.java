@@ -4,21 +4,23 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class StoryTest {
 
-    @Test
-    public void testPUTStory() {
+    private String projectId;
+    private String storyId;
 
+    @BeforeTest
+    public void setUp() {
         //Given
-        String expectedProjectName = "Rest Assured new1";
-        Response response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedProjectName + "\"}")
-                .post("/projects");
-        String projectId = response.jsonPath().getString("id");
+        String expectedProjectName = "Rest Assured PUT Story";
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                "/projects",
+                "{\"name\":\"" + expectedProjectName + "\"}");
+        projectId = response.jsonPath().getString("id");
 
         String storyName = "My Story";
         response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
@@ -26,16 +28,24 @@ public class StoryTest {
                 .when()
                 .body("{\"name\":\"" + storyName + "\"}")
                 .post(String.format("/projects/%s/stories", projectId));
-        String storyId = response.jsonPath().getString("id");
+        storyId = response.jsonPath().getString("id");
+    }
 
+    @Test
+    public void testPUTStory() {
         // When
         String expectedNewStoryName= "New Story Name";
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + expectedNewStoryName + "\"}")
-                .put(String.format("/projects/%s/stories/%s", projectId, storyId));
+        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s", projectId, storyId),
+                "{\"name\":\"" + expectedNewStoryName + "\"}");
 
+        //Then
         Assert.assertEquals(response.jsonPath().getString("name"), expectedNewStoryName);
+    }
+
+    @AfterTest
+    public void cleanData() {
+        RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s", projectId));
     }
 }
