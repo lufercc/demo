@@ -23,7 +23,7 @@ public class PUTProjectTest {
     @Test
     public void testPUTProject() {
         //When
-        String expectedNewProjectName = "Test PUT 1";
+        String expectedNewProjectName = "New Put Project Test";
         Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
                 String.format("/projects/%s", projectId),
                 "{\"name\":\"" + expectedNewProjectName + "\"}");
