@@ -1,8 +1,7 @@
 package org.fundacionjala.coding.tdd;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
 import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -24,11 +23,9 @@ public class StoryTest {
         projectId = response.jsonPath().getString("id");
 
         String storyName = "My Story";
-        response = RestAssured.given(RequestSpecFactory.getRequestSpec("pivotal"))
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"name\":\"" + storyName + "\"}")
-                .post(String.format("/projects/%s/stories", projectId));
+        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories", projectId),
+                "{\"name\":\"" + storyName + "\"}");
         storyId = response.jsonPath().getString("id");
     }
 
