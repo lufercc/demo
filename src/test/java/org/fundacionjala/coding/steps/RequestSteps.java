@@ -11,7 +11,6 @@ import org.testng.Assert;
 public class RequestSteps {
 
 	private Response response;
-	private String attributeVariable;
 
 	@Given("I send a {string} request to {string}")
 	public void iSendARequestTo(String httpMethod, String endpoint, String jsonBody) {
