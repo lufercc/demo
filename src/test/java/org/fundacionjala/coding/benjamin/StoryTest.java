@@ -1,7 +1,5 @@
 package org.fundacionjala.coding.benjamin;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,21 +15,21 @@ public class StoryTest {
         //Step 1: Project is needed.
         String expectedProjectname = "Rest benjah Story";
 
-        Response response = RequestManager.post(RequestSpec.getRequestSpec(),
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
                 "{\"name\":\"" + expectedProjectname + "\"}");
 
         //Step 2: Add an story within a project.
         String projectId = response.jsonPath().getString("id");
         String storyName = "My story";
-        response = RequestManager.post(RequestSpec.getRequestSpec(),
+        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 String.format("/projects/%s/stories", projectId),
                 "{\"name\":\"" + storyName + "\"}");
         String storyId = response.jsonPath().getString("id");
 
         //When
         String expectedStoryName = "story name updated";
-        response = RequestManager.put(RequestSpec.getRequestSpec(),
+        response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
                 String.format("/projects/%s/stories/%s", projectId, storyId),
                 "{\"name\":\"" + expectedStoryName + "\"}");
 
