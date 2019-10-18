@@ -16,10 +16,15 @@ public class RequestSpecFactory {
     }
 
     private static RequestSpecification getRequestSpec() {
-        return new RequestSpecBuilder()
+        RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(Environment.getInstance().getValue("baseUri"))
                 .addHeader("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .build();
+        return requestSpecification
+                .log().method()
+                .log().uri()
+                .log().params()
+                .log().body();
     }
 
 //    private static RequestSpecification getRequestSpecTrello() {

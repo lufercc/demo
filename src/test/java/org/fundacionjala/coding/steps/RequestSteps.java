@@ -1,25 +1,34 @@
 package org.fundacionjala.coding.steps;
 
+import java.util.Map;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
+import org.fundacionjala.coding.EndpointHelper;
 import org.fundacionjala.coding.RequestManager;
 import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.coding.ScenarioContext;
 import org.testng.Assert;
 
 public class RequestSteps {
 
 	private Response response;
+	private ScenarioContext context;
 
-	@Given("I send a {string} request to {string}")
-	public void iSendARequestTo(String httpMethod, String endpoint, String jsonBody) {
+	public RequestSteps(ScenarioContext context) {
+		this.context = context;
+	}
+
+	@Given("I send a {string} request to {string} with json body")
+	public void iSendARequestToWithJsonBody(String httpMethod, String endpoint, String jsonBody) {
+		endpoint = EndpointHelper.buildEndpoint(context, endpoint);
 		if ("POST".equalsIgnoreCase(httpMethod)) {
 			response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
 					endpoint,
 					jsonBody);
 		} else {
-			endpoint = endpoint.replace("{projectId}", response.jsonPath().getString("id"));
 			response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
 					endpoint,
 					jsonBody);
@@ -28,20 +37,39 @@ public class RequestSteps {
 
 	@Given("I send a DELETE request to {string}")
 	public void iSendARequestTo(String endpoint) {
-		endpoint = endpoint.replace("{projectId}", response.jsonPath().getString("id"));
+		endpoint = EndpointHelper.buildEndpoint(context, endpoint);
 		response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
 				endpoint);
 	}
 
-	@Then("I validate the response has status code {string}")
-	public void iValidateTheResponseHasStatusCode(String expectedStatusCode) {
+	@Then("I validate the response has status code {int}")
+	public void iValidateTheResponseHasStatusCode(int expectedStatusCode) {
 		int statusCode = response.getStatusCode();
-		Assert.assertEquals(statusCode, Integer.parseInt(expectedStatusCode));
+		Assert.assertEquals(statusCode, expectedStatusCode);
 	}
 
 	@And("I validate the response contains {string} equals {string}")
 	public void iValidateTheResponseContainsEquals(String attribute, String expectedValue) {
 		String actualProjectName = response.jsonPath().getString(attribute);
 		Assert.assertEquals(actualProjectName, expectedValue);
+	}
+
+	@And("I save the response as {string}")
+	public void iSaveTheResponseAs(String key) {
+		context.set(key, response);
+	}
+
+	@Given("I send a {string} request to {string}")
+	public void iSendARequestTo(String httpMethod, String endpoint, Map<String, String> body) {
+		endpoint = EndpointHelper.buildEndpoint(context, endpoint);
+		if ("POST".equalsIgnoreCase(httpMethod)) {
+			response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+					endpoint,
+					body);
+		} else {
+			response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+					endpoint,
+					body);
+		}
 	}
 }
