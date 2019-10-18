@@ -1,16 +1,17 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.coding.tdd;
 
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class GETStoryCommentTest {
+public class PUTStoryTest {
 
     private String projectId;
     private String storyId;
-    private String storyCommentId;
 
     @BeforeTest
     public void setUp() {
@@ -27,25 +28,19 @@ public class GETStoryCommentTest {
                 String.format("/projects/%s/stories", projectId),
                 "{\"name\":\"" + expectedStoryString + "\"}");
         storyId = response.jsonPath().getString("id");
-
-        //And
-        String expectedStoryCommentString = "story comment";
-        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s/comments", projectId, storyId),
-                "{\"text\":\"" + expectedStoryCommentString + "\"}");
-        storyCommentId = response.jsonPath().getString("id");
     }
 
     @Test
-    public void testGETStoryComment() {
+    public void testPUTStory() {
         //When
-        String expectedStoryCommentString = "story comment";
-        Response response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s/comments/%s", projectId, storyId, storyCommentId));
+        String expectedStoryString = "updated story";
+        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s", projectId, storyId),
+                "{\"name\":\"" + expectedStoryString + "\"}");
 
         //Then
-        String actualStoryCommentString = response.jsonPath().getString("text");
-        Assert.assertEquals(actualStoryCommentString, expectedStoryCommentString);
+        String actualStoryString = response.jsonPath().getString("name");
+        Assert.assertEquals(actualStoryString, expectedStoryString);
     }
 
     @AfterTest

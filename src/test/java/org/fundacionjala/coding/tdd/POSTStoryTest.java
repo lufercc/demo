@@ -1,12 +1,14 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.coding.tdd;
 
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class GETStoryTest {
+public class POSTStoryTest {
 
     private String projectId;
 
@@ -18,20 +20,15 @@ public class GETStoryTest {
                 "/projects",
                 "{\"name\":\"" + expectedProjectName + "\"}");
         projectId = response.jsonPath().getString("id");
-
-        //And
-        String expectedStoryString = "story string";
-        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories", projectId),
-                "{\"name\":\"" + expectedStoryString + "\"}");
     }
 
     @Test
-    public void testGETStory() {
+    public void testPOSTStory() {
         //When
-        String expectedStoryString = "[story string]";
-        Response response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/", projectId));
+        String expectedStoryString = "story string";
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories", projectId),
+                "{\"name\":\"" + expectedStoryString + "\"}");
 
         //Then
         String actualStoryString = response.jsonPath().getString("name");

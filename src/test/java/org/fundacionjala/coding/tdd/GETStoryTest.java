@@ -1,16 +1,16 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.coding.tdd;
 
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class DELETEStoryTest {
+public class GETStoryTest {
 
     private String projectId;
-    private String storyId;
-    private int statusCode;
 
     @BeforeTest
     public void setUp() {
@@ -26,18 +26,18 @@ public class DELETEStoryTest {
         response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 String.format("/projects/%s/stories", projectId),
                 "{\"name\":\"" + expectedStoryString + "\"}");
-        storyId = response.jsonPath().getString("id");
     }
 
     @Test
-    public void testDELETEStory() {
+    public void testGETStory() {
         //When
-        Response response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s", projectId, storyId));
+        String expectedStoryString = "[story string]";
+        Response response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/", projectId));
 
         //Then
-        statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 204);
+        String actualStoryString = response.jsonPath().getString("name");
+        Assert.assertEquals(actualStoryString, expectedStoryString);
     }
 
     @AfterTest
