@@ -13,7 +13,7 @@ public final class EndpointHelper {
 			return endPoint;
 		}
 		Matcher matches = Pattern.compile("(?<=\\{)(.*?)(?=\\})").matcher(endPoint);
-		StringBuilder newEndPoint = new StringBuilder();
+		StringBuffer newEndPoint = new StringBuffer();
 		while (matches.find()) {
 			String[] parametersParts = matches.group().split("\\.");
 			String key = parametersParts[0];
