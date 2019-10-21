@@ -9,20 +9,20 @@ public final class EndpointHelper {
 	}
 
 	public static String buildEndpoint(final ScenarioContext context, final String endPoint) {
-		if (!endPoint.contains("{")) {
-			return endPoint;
+		String[] endPointSplit = endPoint.split("/");
+		for (int i = 0; i < endPointSplit.length; i++) {
+			Pattern pattern = Pattern.compile("(?<=\\{)(.*?)(?=\\})");
+			Matcher matcher = pattern.matcher(endPointSplit[i]);
+			if (matcher.find()) {
+				endPointSplit[i] = getElementResponse(context, matcher.group(1));
+			}
 		}
-		Matcher matches = Pattern.compile("(?<=\\{)(.*?)(?=\\})").matcher(endPoint);
-		StringBuffer newEndPoint = new StringBuffer();
-		while (matches.find()) {
-			String[] parametersParts = matches.group().split("\\.");
-			String key = parametersParts[0];
-			String value = parametersParts[1];
-			String replaceParameter = context.get(key).jsonPath().getString(value);
-			matches.appendReplacement(newEndPoint, replaceParameter);
-		}
-		matches.appendTail(newEndPoint);
-		return newEndPoint.toString().replaceAll("[\\{\\}]", "");
+		return String.join("/", endPointSplit);
+	}
+
+	private static String getElementResponse(final ScenarioContext context, final String element) {
+		String[] elementSplit = element.split("\\.");
+		return context.get(elementSplit[0]).jsonPath().getString(elementSplit[1]);
 	}
 
 }
