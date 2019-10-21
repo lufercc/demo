@@ -1,19 +1,21 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.coding.tdd;
 
 import io.restassured.response.Response;
+import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class GETProjectTest {
+public class PUTProjectTest {
 
     private String projectId;
 
     @BeforeTest
     public void setUp() {
         //Given
-        String expectedProjectName = "Get Project Test";
+        String expectedProjectName = "Put Project Test";
         Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
                 "{\"name\":\"" + expectedProjectName + "\"}");
@@ -21,15 +23,16 @@ public class GETProjectTest {
     }
 
     @Test
-    public void testGETProject() {
+    public void testPUTProject() {
         //When
-        String expectedProjectName = "Get Project Test";
-        Response response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s", projectId));
+        String expectedNewProjectName = "New Put Project Test";
+        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s", projectId),
+                "{\"name\":\"" + expectedNewProjectName + "\"}");
 
         //Then
-        Assert.assertEquals(response.jsonPath().getString("name"), expectedProjectName);
-        Assert.assertEquals(response.jsonPath().getString("kind"), "project");
+        String actualProjectName = response.jsonPath().getString("name");
+        Assert.assertEquals(actualProjectName, expectedNewProjectName);
     }
 
     @AfterTest
@@ -37,4 +40,5 @@ public class GETProjectTest {
         RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
                 String.format("/projects/%s", projectId));
     }
+
 }
