@@ -44,9 +44,7 @@ public class RequestSteps {
 
 	@Given("I send a GET request to {string}")
 	public void iSendGetRequestTo(String endpoint) {
-		System.out.println("EL endpoint ES: " + endpoint);
 		endpoint = EndpointHelper.buildEndpoint(context, endpoint);
-		System.out.println("EL ID OBJETENIDO ES: " + endpoint);
 		response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
 				endpoint);
 	}
