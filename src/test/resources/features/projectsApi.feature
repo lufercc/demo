@@ -1,7 +1,7 @@
 Feature: Projects POST, GET and DELETE
 
   Scenario: POST Project
-    When I send a "POST" request to "/projects"
+    When I send a "POST" request to "/projects" with json body
     """
     {
     "name":"Project POST Project",
@@ -14,7 +14,8 @@ Feature: Projects POST, GET and DELETE
     "enable_incoming_emails": false
     }
     """
-    Then I validate the response has status code "200"
+    And I save the response as "P"
+    Then I validate the response has status code 200
     And I validate the response contains "name" equals "Project POST Project"
     And I validate the response contains "description" equals "Project description test"
     And I validate the response contains "project_type" equals "public"
@@ -23,27 +24,29 @@ Feature: Projects POST, GET and DELETE
     And I validate the response contains "week_start_day" equals "Sunday"
     And I validate the response contains "enable_tasks" equals "false"
     And I validate the response contains "enable_incoming_emails" equals "false"
-    And I send a DELETE request to "/projects/{projectId}"
-    And I validate the response has status code "204"
+    And I send a DELETE request to "/projects/{P.id}"
+    And I validate the response has status code 204
 
   Scenario: GET Project
-    Given I send a "POST" request to "/projects"
+    Given I send a "POST" request to "/projects" with json body
     """
     {
     "name": "Project GET"
     }
     """
-    When I send a GET request to "/projects/{projectId}"
+    And I save the response as "P"
+    When I send a GET request to "/projects/{P.id}"
     Then I validate the response contains "name" equals "Project GET"
-    And I send a DELETE request to "/projects/{projectId}"
-    And I validate the response has status code "204"
+    And I send a DELETE request to "/projects/{P.id}"
+    And I validate the response has status code 204
 
   Scenario: DELETE Project
-    Given I send a "POST" request to "/projects"
+    Given I send a "POST" request to "/projects" with json body
     """
     {
     "name": "Project DELETE"
     }
     """
-    When I send a DELETE request to "/projects/{projectId}"
-    Then I validate the response has status code "204"
+    And I save the response as "P"
+    When I send a DELETE request to "/projects/{P.id}"
+    Then I validate the response has status code 204
