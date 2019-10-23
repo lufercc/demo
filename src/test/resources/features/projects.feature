@@ -13,7 +13,7 @@ Feature: Projects
     "name": "Project updated by cucumber"
     }
     """
-    Then I validate the response has status code "200"
+    Then I validate the response has status code 200
     And I validate the response contains "name" equals "Project updated by cucumber"
     And I send a DELETE request to "/projects/{projectId}"
-    And I validate the response has status code "204"
+    And I validate the response has status code 204

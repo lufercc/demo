@@ -33,10 +33,10 @@ public class RequestSteps {
 				endpoint);
 	}
 
-	@Then("I validate the response has status code {string}")
-	public void iValidateTheResponseHasStatusCode(String expectedStatusCode) {
+	@Then("I validate the response has status code {int}")
+	public void iValidateTheResponseHasStatusCode(int expectedStatusCode) {
 		int statusCode = response.getStatusCode();
-		Assert.assertEquals(statusCode, Integer.parseInt(expectedStatusCode));
+		Assert.assertEquals(statusCode, expectedStatusCode);
 	}
 
 	@And("I validate the response contains {string} equals {string}")

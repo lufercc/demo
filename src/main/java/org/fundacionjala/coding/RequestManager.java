@@ -14,9 +14,7 @@ public class RequestManager {
                 .when()
                 .body(body)
                 .post(endpoint);
-        System.out.println("POST");
-        System.out.println(response.prettyPrint());
-        return response;
+        return getResponseWithLogger(response);
     }
 
     public static Response put(final RequestSpecification requestSpec, final String endpoint,
@@ -26,26 +24,27 @@ public class RequestManager {
                 .when()
                 .body(body)
                 .put(endpoint);
-        System.out.println("PUT");
-        System.out.println(response.prettyPrint());
-        return response;
+        return getResponseWithLogger(response);
     }
 
     public static Response delete(final RequestSpecification requestSpec, final String endpoint) {
         final Response response = RestAssured.given(requestSpec)
                 .when()
                 .delete(endpoint);
-        System.out.println("DELETE");
-        System.out.println(response.prettyPrint());
-        return response;
+        return getResponseWithLogger(response);
     }
 
     public static Response get(final RequestSpecification requestSpec, final String endpoint) {
         final Response response = RestAssured.given(requestSpec)
                 .when()
                 .get(endpoint);
-        System.out.println("GET");
-        System.out.println(response.prettyPrint());
+        return getResponseWithLogger(response);
+    }
+
+    private static Response getResponseWithLogger(Response response) {
+        response.then()
+                .log().status()
+                .log().body();
         return response;
     }
 }
