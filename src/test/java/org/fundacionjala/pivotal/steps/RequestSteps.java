@@ -6,9 +6,11 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
+import org.json.simple.JSONObject;
 import org.testng.Assert;
 
 import org.fundacionjala.pivotal.EndpointHelper;
+import org.fundacionjala.pivotal.JsonHelper;
 import org.fundacionjala.pivotal.RequestManager;
 import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.fundacionjala.pivotal.ScenarioContext;
@@ -25,6 +27,21 @@ public class RequestSteps {
     @Given("I send a {string} request to {string} with json body")
     public void iSendARequestToWithJsonBody(final String httpMethod, final String endpoint,
                                             final String jsonBody) {
+        if ("POST".equalsIgnoreCase(httpMethod)) {
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.buildEndpoint(context, endpoint),
+                    jsonBody);
+        } else {
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.buildEndpoint(context, endpoint),
+                    jsonBody);
+        }
+    }
+
+    @Given("I send a {string} request to {string} with json file {string}")
+    public void iSendARequestToWithJsonFile(final String httpMethod, final String endpoint,
+                                            final String jsonPath) {
+        JSONObject jsonBody = JsonHelper.getJsonObject("src/test/resources/".concat(jsonPath));
         if ("POST".equalsIgnoreCase(httpMethod)) {
             response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint),
