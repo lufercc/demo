@@ -2,53 +2,40 @@ package org.fundacionjala.coding.tdd;
 
 import io.restassured.response.Response;
 import org.fundacionjala.coding.RequestManager;
-import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.coding.benjamin.RequestSpecFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+/**
+ * @author Benjamin Huanca on 10/22/2019.
+ * @version 1.0
+ */
 public class DELETEProjectTest {
-
     private String projectId;
-    private int statusCode;
-
     @BeforeTest
-    public void setUp() {
+    public void setUp(){
         //Given
-        String expectedProjectName = "Rest Assured new 1";
+        //Step 1: A Project already created is needed.
+        String expectedProjectname = "Rest project API";
         Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
-                "{\"name\":\"" + expectedProjectName + "\"}");
+                "{\"name\":\"" + expectedProjectname + "\"}");
         projectId = response.jsonPath().getString("id");
     }
 
     @Test
     public void testDELETEProject() {
         //When
+
         Response response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s", projectId));
-
+                "/projects/" + projectId);
         //Then
-        statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 204);
-
-        // Using rest api
+        Assert.assertEquals(response.getStatusCode(), 204);
+        //Using Rest API
         response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s", projectId));
-        Assert.assertEquals(response.jsonPath().getString("code"), "unauthorized_operation");
-        Assert.assertEquals(response.jsonPath().getString("kind"), "error");
-        Assert.assertEquals(response.jsonPath().getString("error"), "Authorization failure.");
-        Assert.assertEquals(response.jsonPath().getString("general_problem"), "You aren't authorized to access the requested resource.");
+                "/projects/" + projectId);
+        Assert.assertEquals(response.jsonPath().getString("code"),"unauthorized_operation");
 
-        // Using DB
     }
-
-    @AfterTest
-    public void cleanData() {
-        if (statusCode != 204) {
-            // clean using DB
-        }
-    }
-
 }

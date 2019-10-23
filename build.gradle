@@ -10,6 +10,7 @@ repositories {
 // In this section you declare the dependencies for your production and test code
 dependencies {
     compile group: 'io.rest-assured', name: 'rest-assured', version: '4.1.1'
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
     compile group: 'io.cucumber', name: 'cucumber-java', version: '4.8.0'
     compile group: 'io.cucumber', name: 'cucumber-testng', version: '4.8.0'
 

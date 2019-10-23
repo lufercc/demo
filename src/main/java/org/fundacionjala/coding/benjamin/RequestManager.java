@@ -29,4 +29,18 @@ public class RequestManager {
                 .body(body)
                 .put(endpoint);
     }
+
+    public static Response delete(final RequestSpecification requestSpec,
+                               final String endpoint){
+        return RestAssured.given(requestSpec)
+                .when()
+                .delete(endpoint);
+    }
+
+    public static Response get(final RequestSpecification requestSpec,
+                                  final String endpoint){
+        return RestAssured.given(requestSpec)
+                .when()
+                .delete(endpoint);
+    }
 }

@@ -8,12 +8,12 @@ import org.testng.annotations.Test;
  * @author Benjamin Huanca on 10/17/2019.
  * @version 1.0
  */
-public class StoryTest {
+public class PUTStoryTest {
     @Test
     public void testPUTStory() {
         //Given
         //Step 1: Project is needed.
-        String expectedProjectname = "Rest benjah Story";
+        String expectedProjectname = "Rest benjah API";
 
         Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                 "/projects",
