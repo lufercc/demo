@@ -4,22 +4,33 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
+import org.fundacionjala.coding.EndpointHelper;
 import org.fundacionjala.coding.RequestManager;
 import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.coding.ScenarioContext;
 import org.testng.Assert;
+
+import java.util.Map;
+
 
 public class RequestSteps {
 
 	private Response response;
+	private ScenarioContext context;
 
-	@Given("I send a {string} request to {string}")
-	public void iSendARequestTo(String httpMethod, String endpoint, String jsonBody) {
-		if ("POST".equalsIgnoreCase(httpMethod)) {
+	public RequestSteps(ScenarioContext context){
+	    this.context = context;
+    }
+
+	@Given("I send a {string} request to {string} with Json body")
+	public void iSendARequestToWithJsonBody(String httpMethod, String endpoint, String jsonBody) {
+        endpoint = EndpointHelper.buildEndpoint(context, endpoint);
+	    if ("POST".equalsIgnoreCase(httpMethod)) {
 			response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
 					endpoint,
 					jsonBody);
 		} else {
-			endpoint = endpoint.replace("{projectId}", response.jsonPath().getString("id"));
+
 			response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
 					endpoint,
 					jsonBody);
@@ -28,10 +39,24 @@ public class RequestSteps {
 
 	@Given("I send a DELETE request to {string}")
 	public void iSendARequestTo(String endpoint) {
-		endpoint = endpoint.replace("{projectId}", response.jsonPath().getString("id"));
+        endpoint = EndpointHelper.buildEndpoint(context, endpoint);
 		response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
 				endpoint);
 	}
+
+    @Given("I send a {string} request to {string} with Data Table")
+    public void iSendARequestToWithDataTable(String httpMethod, String endpoint, Map<String, String> body) {
+        endpoint = EndpointHelper.buildEndpoint(context, endpoint);
+        if ("POST".equalsIgnoreCase(httpMethod)) {
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                    endpoint,
+                    body);
+        } else {
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                    endpoint,
+                    body);
+        }
+    }
 
 	@Then("I validate the response has status code {int}")
 	public void iValidateTheResponseHasStatusCode(int expectedStatusCode) {
@@ -44,4 +69,9 @@ public class RequestSteps {
 		String actualProjectName = response.jsonPath().getString(attribute);
 		Assert.assertEquals(actualProjectName, expectedValue);
 	}
+
+    @And("I save the response as {string}")
+    public void iSaveTheResponseAs(final String key) {
+        context.set(key, response);
+    }
 }

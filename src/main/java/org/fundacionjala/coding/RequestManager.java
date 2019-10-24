@@ -5,6 +5,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.util.Map;
+
 public class RequestManager {
 
     public static Response post(final RequestSpecification requestSpec, final String endpoint,
@@ -17,12 +19,30 @@ public class RequestManager {
         return getResponseWithLogger(response);
     }
 
+    public static Response post(final RequestSpecification requestSpec, final String endpoint,
+                                final Map<String, String> body) {
+        final Response response = RestAssured.given(requestSpec)
+                .params(body)
+                .when()
+                .post(endpoint);
+        return getResponseWithLogger(response);
+    }
+
     public static Response put(final RequestSpecification requestSpec, final String endpoint,
                                 final String body) {
         final Response response = RestAssured.given(requestSpec)
                 .contentType(ContentType.JSON)
                 .when()
                 .body(body)
+                .put(endpoint);
+        return getResponseWithLogger(response);
+    }
+
+    public static Response put(final RequestSpecification requestSpec, final String endpoint,
+                               final Map<String, String> body) {
+        final Response response = RestAssured.given(requestSpec)
+                .params(body)
+                .when()
                 .put(endpoint);
         return getResponseWithLogger(response);
     }

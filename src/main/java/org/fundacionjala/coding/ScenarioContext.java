@@ -1,6 +1,6 @@
 package org.fundacionjala.coding;
 
-import javax.xml.ws.Response;
+import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +12,11 @@ public class ScenarioContext {
         map = new HashMap<>();
     }
 
-    public Map<String, Response> getMap() {
-        return map;
+    public Response get(String key) {
+        return map.get(key);
     }
 
-    public void setMap(Map<String, Response>map) {
-        this.map = map;
+    public void set(String key, Response response) {
+        map.put(key, response);
     }
-
 }

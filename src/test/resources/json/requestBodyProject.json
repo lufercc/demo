@@ -1,0 +1,32 @@
+{
+  "id": 2408577,
+  "kind": "project",
+  "name": "Project created by cucumber",
+  "version": 1,
+  "iteration_length": 1,
+  "week_start_day": "Monday",
+  "point_scale": "0,1,2,3",
+  "point_scale_is_custom": false,
+  "bugs_and_chores_are_estimatable": false,
+  "automatic_planning": true,
+  "enable_tasks": true,
+  "time_zone": {
+    "kind": "time_zone",
+    "olson_name": "America/Los_Angeles",
+    "offset": "-07:00"
+  },
+  "velocity_averaged_over": 3,
+  "number_of_done_iterations_to_show": 4,
+  "has_google_domain": false,
+  "enable_incoming_emails": true,
+  "initial_velocity": 10,
+  "public": false,
+  "atom_enabled": false,
+  "project_type": "private",
+  "start_time": "2019-10-21T07:00:00Z",
+  "created_at": "2019-10-24T19:19:50Z",
+  "updated_at": "2019-10-24T19:19:50Z",
+  "account_id": 1099413,
+  "current_iteration_number": 1,
+  "enable_following": true
+}
