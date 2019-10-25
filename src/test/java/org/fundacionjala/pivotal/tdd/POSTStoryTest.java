@@ -1,17 +1,16 @@
-package org.fundacionjala.coding.tdd;
+package org.fundacionjala.pivotal.tdd;
 
 import io.restassured.response.Response;
-import org.fundacionjala.coding.RequestManager;
-import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.pivotal.RequestManager;
+import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class PUTStoryTest {
+public class POSTStoryTest {
 
     private String projectId;
-    private String storyId;
 
     @BeforeTest
     public void setUp() {
@@ -21,21 +20,14 @@ public class PUTStoryTest {
                 "/projects",
                 "{\"name\":\"" + expectedProjectName + "\"}");
         projectId = response.jsonPath().getString("id");
-
-        //And
-        String expectedStoryString = "story string";
-        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories", projectId),
-                "{\"name\":\"" + expectedStoryString + "\"}");
-        storyId = response.jsonPath().getString("id");
     }
 
     @Test
-    public void testPUTStory() {
+    public void testPOSTStory() {
         //When
-        String expectedStoryString = "updated story";
-        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s", projectId, storyId),
+        String expectedStoryString = "story string";
+        Response response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories", projectId),
                 "{\"name\":\"" + expectedStoryString + "\"}");
 
         //Then

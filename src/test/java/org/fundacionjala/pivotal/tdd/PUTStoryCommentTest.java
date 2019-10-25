@@ -1,19 +1,18 @@
-package org.fundacionjala.coding.tdd;
+package org.fundacionjala.pivotal.tdd;
 
 import io.restassured.response.Response;
-import org.fundacionjala.coding.RequestManager;
-import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.pivotal.RequestManager;
+import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class DELETEStoryCommentTest {
+public class PUTStoryCommentTest {
 
     private String projectId;
     private String storyId;
     private String storyCommentId;
-    private int statusCode;
 
     @BeforeTest
     public void setUp() {
@@ -40,15 +39,16 @@ public class DELETEStoryCommentTest {
     }
 
     @Test
-    public void testDELETEStoryComment() {
+    public void testPUTStoryComment() {
         //When
-        String expectedStoryCommentString = "story comment";
-        Response response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
-                String.format("/projects/%s/stories/%s/comments/%s", projectId, storyId, storyCommentId));
+        String expectedStoryCommentString = "updated comment";
+        Response response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                String.format("/projects/%s/stories/%s/comments/%s", projectId, storyId, storyCommentId),
+                "{\"text\":\"" + expectedStoryCommentString + "\"}");
 
         //Then
-        statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 204);
+        String actualStoryCommentString = response.jsonPath().getString("text");
+        Assert.assertEquals(actualStoryCommentString, expectedStoryCommentString);
     }
 
     @AfterTest

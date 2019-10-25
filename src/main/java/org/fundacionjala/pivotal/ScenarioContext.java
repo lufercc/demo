@@ -1,4 +1,4 @@
-package org.fundacionjala.coding;
+package org.fundacionjala.pivotal;
 
 import io.restassured.response.Response;
 import java.util.HashMap;

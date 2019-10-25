@@ -1,8 +1,8 @@
-package org.fundacionjala.coding.tdd;
+package org.fundacionjala.pivotal.tdd;
 
 import io.restassured.response.Response;
-import org.fundacionjala.coding.RequestManager;
-import org.fundacionjala.coding.RequestSpecFactory;
+import org.fundacionjala.pivotal.RequestManager;
+import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
