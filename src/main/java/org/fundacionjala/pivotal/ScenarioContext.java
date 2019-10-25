@@ -1,8 +1,9 @@
 package org.fundacionjala.pivotal;
 
-import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.restassured.response.Response;
 
 public class ScenarioContext {
 
@@ -12,11 +13,11 @@ public class ScenarioContext {
         map = new HashMap<>();
     }
 
-    public Response get(String key) {
+    public Response get(final String key) {
         return map.get(key);
     }
 
-    public void set(String key, Response response) {
+    public void set(final String key, final Response response) {
         map.put(key, response);
     }
 }
