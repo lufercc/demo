@@ -1,6 +1,9 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = '1.8'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -10,16 +13,27 @@ repositories {
 // In this section you declare the dependencies for your production and test code
 dependencies {
     compile group: 'io.rest-assured', name: 'rest-assured', version: '4.1.1'
-    compile group: 'io.cucumber', name: 'cucumber-jvm', version: '4.7.2', ext: 'pom'
-    compile group: 'io.cucumber', name: 'cucumber-testng', version: '4.7.2'
+    compile group: 'io.cucumber', name: 'cucumber-java', version: '4.8.0'
+    compile group: 'io.cucumber', name: 'cucumber-testng', version: '4.8.0'
+    compile group: 'io.cucumber', name: 'cucumber-picocontainer', version: '4.8.0'
 
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.1.0'
 }
 
-test {
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '8.23'
+}
+
+task runFeatures(type: Test) {
     useTestNG()
-    testLogging {
-        events 'PASSED', 'STARTED', 'FAILED', 'SKIPPED'
+    options {
+        jvmArgs = ['-Dcucumber.options= --glue org.fundacionjala.pivotal ' +
+                           '--plugin pretty ']
     }
+    testLogging.showStandardStreams = true
+    scanForTestClasses = false
+    ignoreFailures = false
+    reports.html.enabled = false
 }
