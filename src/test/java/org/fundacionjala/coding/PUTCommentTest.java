@@ -1,6 +1,8 @@
 package org.fundacionjala.coding;
 
 import io.restassured.response.Response;
+import org.fundacionjala.pivotal.RequestManager;
+import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
