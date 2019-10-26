@@ -88,4 +88,19 @@ public class RequestSteps {
                     body);
         }
     }
+
+    @And("I print the content from {string}")
+    public void iPrintTheContentFrom(final String attribute) {
+        String actualProjectName = response.jsonPath().getString(attribute);
+        String[] result = actualProjectName.split("[\\\\.$|,|;|:]");
+        System.out.println(result[1]);
+        }
+
+    @And("I validate the Zone from {string} equals {string}")
+    public void iValidateTheZoneFromEquals(final String attribute, final String expectedValue) {
+        String string = response.jsonPath().getString(attribute);
+        String[] extractZone = string.split("[\\\\.$|,|;|:]");
+        String actualProjectName = extractZone[1];
+        Assert.assertEquals(actualProjectName, expectedValue);
+    }
 }
