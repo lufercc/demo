@@ -15,25 +15,30 @@ import org.testng.Assert;
  * @version 1.0
  */
 public class RequestSteps {
-    private String projectId;
+
     private Response response;
     private ScenarioContext context;
 
     public RequestSteps(ScenarioContext context) {
-    this.context=context;
+        this.context = context;
     }
 
     @Given("I send a {string} request to {string}")
-    public void iSendARequestTo(String httpMethod, String endpoint, String jsonBody) {
-        endpoint= EndpointHelper.endpointBuilder(context,endpoint);
-        response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
-                endpoint,
-                jsonBody);
-        projectId = response.jsonPath().getString("id");
+    public void iSendARequestTo(final String httpMethod, final String endpoint,
+                                final String jsonBody) {
+        if ("POST".equalsIgnoreCase(httpMethod)) {
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.endpointBuilder(context, endpoint),
+                    jsonBody);
+        } else {
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.endpointBuilder(context, endpoint),
+                    jsonBody);
+        }
     }
 
-    @Then("I validate the response has status code {string}")
-    public void iValidateTheResponseHasStatusCode(String expectedStatusCode) {
+    @Then("I validate the response has status code {int}")
+    public void iValidateTheResponseHasStatusCode(int expectedStatusCode) {
         int statusCode = response.getStatusCode();
         Assert.assertEquals(statusCode, expectedStatusCode);
 
@@ -48,5 +53,11 @@ public class RequestSteps {
     @And("I save the response as {string}")
     public void iSaveTheResponseAs(String key) {
         context.set(key, response);
+    }
+
+    @And("I send a DELETE request to {string}")
+    public void iSendADELETERequestTo(final String endpoint) {
+        response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
+                EndpointHelper.endpointBuilder(context, endpoint));
     }
 }

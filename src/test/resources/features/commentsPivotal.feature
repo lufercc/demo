@@ -29,3 +29,5 @@ Feature: Comments
     """
     Then I validate the response has status code "200"
     And I validate the response contains "text" equals "Rest Comment Updated Benjah Cucumber"
+    And I send a DELETE request to "/projects/{projectId}"
+    And I validate the response has status code "204"

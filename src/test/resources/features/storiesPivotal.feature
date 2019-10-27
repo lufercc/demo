@@ -22,3 +22,5 @@ Feature: Stories
     """
     Then I validate the response has status code "200"
     And I validate the response contains "name" equals "Rest Benjah Cucumber"
+    And I send a DELETE request to "/projects/{projectId}"
+    And I validate the response has status code "204"
