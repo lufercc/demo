@@ -1,10 +1,11 @@
-package org.fundacionjala.coding.benjamin;
+package org.fundacionjala.coding.benjamin.tdd;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.fundacionjala.coding.RequestManager;
 
+import org.fundacionjala.coding.benjamin.RequestSpecFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -35,8 +36,8 @@ public class PUTProjectTest {
                 "/projects/" + projectId,
                 "{\"name\":\"" + expectedNewProjectname + "\"}");
         //Then
-        String actualProjectName = response.jsonPath().getString("name");
-        Assert.assertEquals(actualProjectName, expectedNewProjectname);
+            String actualProjectName = response.jsonPath().getString("name");
+            Assert.assertEquals(actualProjectName, expectedNewProjectname);
     }
     @AfterTest
     public void cleanData() {

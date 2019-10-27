@@ -13,11 +13,14 @@ public class RequestManager {
     public static Response post(final RequestSpecification requestSpec,
                                 final String endpoint,
                                 final String body){
-        return RestAssured.given(requestSpec)
+        final Response response= RestAssured.given(requestSpec)
+                .log().all()
                 .contentType(ContentType.JSON)
                 .when()
                 .body(body)
                 .post(endpoint);
+        response.then().log().all();
+        return response;
     }
 
     public static Response put(final RequestSpecification requestSpec,

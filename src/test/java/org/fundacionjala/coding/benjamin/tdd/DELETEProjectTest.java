@@ -1,7 +1,8 @@
-package org.fundacionjala.coding.benjamin;
+package org.fundacionjala.coding.benjamin.tdd;
 
 import io.restassured.response.Response;
 import org.fundacionjala.coding.RequestManager;
+import org.fundacionjala.coding.benjamin.RequestSpecFactory;
 import org.testng.annotations.Test;
 
 /**
