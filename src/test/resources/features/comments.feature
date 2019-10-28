@@ -18,7 +18,7 @@ Feature: Comments
     And I send a "POST" request to "/projects/{P.id}/stories/{S.id}/comments" with json body
     """
     {
-    "text": "Comment created by cucumber"
+    "text": "Comment created by cucumberffffff"
     }
     """
     And I save the response as "C"
