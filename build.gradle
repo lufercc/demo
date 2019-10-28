@@ -1,6 +1,7 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = '1.8'
 
@@ -20,9 +21,19 @@ dependencies {
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.1.0'
 }
 
-test {
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '8.23'
+}
+
+task runFeatures(type: Test) {
     useTestNG()
-    testLogging {
-        events 'PASSED', 'STARTED', 'FAILED', 'SKIPPED'
+    options {
+        jvmArgs = ['-Dcucumber.options= --glue org.fundacionjala.pivotal ' +
+                           '--plugin pretty ']
     }
+    testLogging.showStandardStreams = true
+    scanForTestClasses = false
+    ignoreFailures = false
+    reports.html.enabled = false
 }
