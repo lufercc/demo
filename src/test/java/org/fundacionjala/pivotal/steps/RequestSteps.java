@@ -19,6 +19,7 @@ public class RequestSteps {
 
     private Response response;
     private ScenarioContext context;
+    private String servicePivotal = "pivotal";
 
     public RequestSteps(final ScenarioContext context) {
         this.context = context;
@@ -28,11 +29,11 @@ public class RequestSteps {
     public void iSendARequestToWithJsonBody(final String httpMethod, final String endpoint,
                                             final String jsonBody) {
         if ("POST".equalsIgnoreCase(httpMethod)) {
-            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         } else {
-            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         }
@@ -43,11 +44,11 @@ public class RequestSteps {
                                             final String jsonPath) {
         JSONObject jsonBody = JsonHelper.getJsonObject("src/test/resources/".concat(jsonPath));
         if ("POST".equalsIgnoreCase(httpMethod)) {
-            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         } else {
-            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         }
@@ -55,7 +56,7 @@ public class RequestSteps {
 
     @Given("I send a DELETE request to {string}")
     public void iSendARequestTo(final String endpoint) {
-        response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
+        response = RequestManager.delete(RequestSpecFactory.getRequestSpec(servicePivotal),
                 EndpointHelper.buildEndpoint(context, endpoint));
     }
 
@@ -68,7 +69,12 @@ public class RequestSteps {
     @And("I validate the response contains {string} equals {string}")
     public void iValidateTheResponseContainsEquals(final String attribute, final String expectedValue) {
         String actualProjectName = response.jsonPath().getString(attribute);
-        Assert.assertEquals(actualProjectName, expectedValue);
+        String newExpectedValue = expectedValue;
+        if (expectedValue.contains(".")) {
+            String[] elementSplit = expectedValue.split("\\.");
+            newExpectedValue = context.get(elementSplit[0]).jsonPath().getString(elementSplit[1]);
+        }
+        Assert.assertEquals(actualProjectName, newExpectedValue);
     }
 
     @And("I save the response as {string}")
@@ -79,11 +85,11 @@ public class RequestSteps {
     @Given("I send a {string} request to {string}")
     public void iSendARequestTo(final String httpMethod, final String endpoint, final Map<String, String> body) {
         if ("POST".equalsIgnoreCase(httpMethod)) {
-            response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.post(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     body);
         } else {
-            response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
+            response = RequestManager.put(RequestSpecFactory.getRequestSpec(servicePivotal),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     body);
         }
@@ -91,7 +97,7 @@ public class RequestSteps {
 
     @Then("I send a GET request to {string}")
     public void iSendAGETRequestTo(final String endPoint) {
-        response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
+        response = RequestManager.get(RequestSpecFactory.getRequestSpec(servicePivotal),
                 EndpointHelper.buildEndpoint(context, endPoint));
     }
 }
