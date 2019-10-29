@@ -14,6 +14,7 @@ import org.fundacionjala.pivotal.JsonHelper;
 import org.fundacionjala.pivotal.RequestManager;
 import org.fundacionjala.pivotal.RequestSpecFactory;
 import org.fundacionjala.pivotal.ScenarioContext;
+import org.fundacionjala.pivotal.ArrayHelper;
 
 public class RequestSteps {
 
@@ -87,5 +88,12 @@ public class RequestSteps {
                     EndpointHelper.buildEndpoint(context, endpoint),
                     body);
         }
+    }
+
+    @And("I validate the component {string} from {string} equals {string}")
+    public void iValidateTheZoneFromEquals(final String component, final String attribute, final String expectedValue) {
+        String string = response.jsonPath().getString(attribute);
+        //ArrayHelper.getArrayId(component, string);
+        Assert.assertEquals(ArrayHelper.getArrayId(component, string), expectedValue);
     }
 }
