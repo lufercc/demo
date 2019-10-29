@@ -5,6 +5,7 @@ import java.util.Map;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
@@ -87,5 +88,11 @@ public class RequestSteps {
                     EndpointHelper.buildEndpoint(context, endpoint),
                     body);
         }
+    }
+
+    @When("I send a GET request to {string}")
+    public void iSendAGETRequestTo(final String endPoint) {
+        response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
+                EndpointHelper.buildEndpoint(context, endPoint));
     }
 }
