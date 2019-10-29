@@ -31,7 +31,12 @@ public class RequestSteps {
             response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
-        } else {
+        }
+        else if ("GET".equalsIgnoreCase(httpMethod)) {
+            response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.buildEndpoint(context, endpoint));
+        }
+        else {
             response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);

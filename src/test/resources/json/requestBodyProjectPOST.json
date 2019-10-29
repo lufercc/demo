@@ -1,0 +1,19 @@
+{
+  "name": "Project created by cucumber",
+  "no_owner": false,
+  "public": true,
+  "week_start_day": "Friday",
+  "iteration_length": 2,
+  "point_scale":"0,1,2,3,5,8",
+  "bugs_and_chores_are_estimatable": true,
+  "automatic_planning": true,
+  "enable_tasks": true,
+  "start_date": "2019-10-04",
+  "description": "Project created using json file",
+  "profile_content": "Project with most amount of attributes in the request and response",
+  "enable_incoming_emails": true,
+  "project_type": "demo",
+  "join_as": "owner",
+  "initial_velocity": 9,
+  "time_zone": {"olson_name":"America/La_Paz", "offset":"-05:00", "kind":"time_zone"}
+}
