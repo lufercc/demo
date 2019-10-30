@@ -99,9 +99,4 @@ public class RequestSteps {
         }
     }
 
-    @When("I send a GET request to {string}")
-    public void iSendAGETRequestToWithJsonBody(final String endpoint) {
-        response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
-                EndpointHelper.buildEndpoint(context, endpoint));
-    }
 }
