@@ -1,0 +1,7 @@
+{
+  "name": "Stories name created by POST",
+  "description": "Story created using json file",
+  "story_type": "feature",
+  "current_state": "started",
+  "estimate": 1
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Stories name updated by PUT",
+  "description": "Story updated using json file PUT",
+  "story_type": "bug",
+  "current_state": "rejected",
+  "estimate": 3
+}
