@@ -91,7 +91,7 @@ public class RequestSteps {
     }
 
     @When("I send a GET request to {string}")
-    public void iSendAGETRequestTo(String endpoint) {
+    public void iSendAGETRequestTo(final String endpoint) {
         response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
                 EndpointHelper.buildEndpoint(context, endpoint));
     }
