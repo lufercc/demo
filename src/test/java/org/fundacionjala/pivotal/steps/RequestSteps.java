@@ -93,4 +93,26 @@ public class RequestSteps {
                     body);
         }
     }
+
+    @cucumber.api.java.en.And("I validate the response contains the values equals to json file {string}")
+    public void iValidateTheResponseContainsTheValuesEqualsToJsonFile(String jsonPath) {
+        JSONObject jsonBody = JsonHelper.getJsonObject("src/test/resources/".concat(jsonPath));
+        for (Object attribute : jsonBody.keySet()){
+            String expectedValue = jsonBody.get(attribute).toString();
+            String actualValue = response.jsonPath().getString((String)attribute);
+            Assert.assertEquals(actualValue, expectedValue);
+        }
+
+    }
+    @Given("I send a {string} request with no body to {string}")
+    public void iSendARequestwithNoBodyTo(final String httpMethod, final String endpoint) {
+        if ("GET".equalsIgnoreCase(httpMethod)){
+            response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.buildEndpoint(context, endpoint));
+
+        } else if ("DELETE".equalsIgnoreCase(httpMethod)){
+            response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
+                    EndpointHelper.buildEndpoint(context, endpoint));
+        }
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "Project created edited by PUT request",
+  "week_start_day": "Saturday",
+  "iteration_length": 3,
+  "point_scale":"0,1,2,3",
+  "bugs_and_chores_are_estimatable": false,
+  "automatic_planning": false,
+  "enable_tasks": false,
+  "start_date": "2019-10-05",
+  "description": "Project edited using json file PUT",
+  "profile_content": "Project with most amount of attributes in the PUT request and response",
+  "enable_incoming_emails": false,
+  "project_type": "private",
+  "initial_velocity": 8
+}
