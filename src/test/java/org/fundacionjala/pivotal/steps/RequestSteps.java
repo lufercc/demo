@@ -8,9 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.testng.Assert;
 
 import org.fundacionjala.pivotal.EndpointHelper;
 import org.fundacionjala.pivotal.JsonHelper;
