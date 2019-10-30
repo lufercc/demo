@@ -12,8 +12,9 @@ import java.util.function.Supplier;
  * @version 1.0
  */
 public class RequestSpecFactory {
-    private static final Map<String, Supplier<RequestSpecification>> REQUEST_SPEC_MAP=new HashMap<>();
-    static{
+    private static final Map<String, Supplier<RequestSpecification>> REQUEST_SPEC_MAP = new HashMap<>();
+
+    static {
         REQUEST_SPEC_MAP.put("pivotal", RequestSpecFactory::getRequestSpec);
     }
 
@@ -21,7 +22,7 @@ public class RequestSpecFactory {
     }
 
     private static RequestSpecification getRequestSpec() {
-        RequestSpecification requestSpecification=new RequestSpecBuilder()
+        RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(Environment.getInstance().getValue("baseUri"))
                 .addHeader("X-TrackerToken", Environment.getInstance().getValue("credentials.owner.token"))
                 .build();
@@ -32,7 +33,7 @@ public class RequestSpecFactory {
                 .log().body();
     }
 
-    public static RequestSpecification getRequestSpec(final String serviceName){
+    public static RequestSpecification getRequestSpec(final String serviceName) {
         return REQUEST_SPEC_MAP.get(serviceName).get();
     }
 }

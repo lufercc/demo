@@ -3,6 +3,7 @@ package org.fundacionjala.coding.benjamin.steps;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.fundacionjala.coding.benjamin.EndpointHelper;
 import org.fundacionjala.coding.benjamin.RequestManager;
@@ -26,6 +27,7 @@ public class RequestSteps {
     @Given("I send a {string} request to {string}")
     public void iSendARequestTo(final String httpMethod, final String endpoint,
                                 final String jsonBody) {
+
         if ("POST".equalsIgnoreCase(httpMethod)) {
             response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.endpointBuilder(context, endpoint),
@@ -58,6 +60,12 @@ public class RequestSteps {
     @And("I send a DELETE request to {string}")
     public void iSendADELETERequestTo(final String endpoint) {
         response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
+                EndpointHelper.endpointBuilder(context, endpoint));
+    }
+
+    @When("I send a GET request to {string}")
+    public void iSendAGETRequestTo(final String endpoint) {
+        response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
                 EndpointHelper.endpointBuilder(context, endpoint));
     }
 }
