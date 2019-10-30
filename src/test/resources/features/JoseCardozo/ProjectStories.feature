@@ -25,9 +25,13 @@ Feature: Stories /projects/{project_id}/stories
 
   @GetStory
   Scenario: Get Stories from a project
-    When I send a "POST" request to "/projects/{P.id}/stories"
-      | name | Story1 |
+    Given I had the following "name" of stories:
+      | Story1 |
+      | Story2 |
     When I send a GET request to "/projects/{P.id}/stories"
     Then I validate the response has status code 200
+    And I validate the response contains "name":
+      | Story1 |
+      | Story2 |
     And I send a DELETE request to "/projects/{P.id}"
     And I validate the response has status code 204
