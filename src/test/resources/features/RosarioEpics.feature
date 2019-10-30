@@ -9,11 +9,11 @@ Feature: Epics
     And I send a "PUT" request to "/projects/{proj.id}" with json body
     """
     {
-    "name": "RPFH project1"
+    "name": "RPFH project4"
     }
     """
     And I validate the response has status code 200
-    And I validate the response contains "name" equals "RPFH project1"
+    And I validate the response contains "name" equals "RPFH project4"
 
   Scenario: Working with epics feature
     When I send a "POST" request to "/projects/{proj.id}/epics" with json file "json/bodyCreateEpic.json"
@@ -29,6 +29,5 @@ Feature: Epics
     And I validate the response contains "id" is not null
     Then I send a DELETE request to "/projects/{proj.id}/epics/{epi.id}"
     And I validate the response has status code 204
-    And I validate the response does not contains "id"
     And I send a DELETE request to "/projects/{proj.id}"
     And I validate the response has status code 204

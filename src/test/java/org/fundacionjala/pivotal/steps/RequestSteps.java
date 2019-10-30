@@ -105,11 +105,4 @@ public class RequestSteps {
         String actualProjectId = response.jsonPath().getString(attribute);
         Assert.assertNotNull(actualProjectId);
     }
-
-    @And("I validate the response does not contains {string}")
-    public void iValidateTheResponseContainsIsNull(final String attribute) {
-        //String actualProjectId = response.jsonPath().getString(attribute);
-        //Assert.assertNull(actualProjectId);
-        Assert.fail("Does not exist",response.jsonPath().getString(attribute));
-    }
 }
