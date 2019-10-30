@@ -1,7 +1,7 @@
 Feature: Projects
 
   Scenario: PUT Project
-    Given I send a "POST" request to "/projects" with json body
+    Given I send a "POST" request to "/projects"
     """
     {
     "name": "Project created by cucumber",
@@ -11,7 +11,7 @@ Feature: Projects
     }
     """
     And I save the response as "P"
-    When I send a "PUT" request to "/projects/{P.id}" with json body
+    When I send a "PUT" request to "/projects/{P.id}"
     """
     {
     "name": "Project updated by cucumber",

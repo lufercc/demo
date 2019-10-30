@@ -5,9 +5,7 @@ import java.util.Map;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 
@@ -19,16 +17,14 @@ import org.fundacionjala.pivotal.ScenarioContext;
 
 public class RequestSteps {
 
-    private final RequestSpecification requestSpecification;
     private Response response;
     private ScenarioContext context;
 
     public RequestSteps(final ScenarioContext context) {
         this.context = context;
-        requestSpecification = RequestSpecFactory.getRequestSpec("pivotal");
     }
 
-    @Given("I send a {string} request to {string} with json body")
+    @Given("I send a {string} request to {string}")
     public void iSendARequestToWithJsonBody(final String httpMethod, final String endpoint,
                                             final String jsonBody) {
         if ("POST".equalsIgnoreCase(httpMethod)) {
@@ -37,11 +33,6 @@ public class RequestSteps {
                     jsonBody);
         } else {
             response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-            response = RequestManager.post(requestSpecification,
-                    EndpointHelper.buildEndpoint(context, endpoint),
-                    jsonBody);
-        } else {
-            response = RequestManager.put(requestSpecification,
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         }
@@ -57,11 +48,6 @@ public class RequestSteps {
                     jsonBody);
         } else {
             response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-            response = RequestManager.post(requestSpecification,
-                    EndpointHelper.buildEndpoint(context, endpoint),
-                    jsonBody);
-        } else {
-            response = RequestManager.put(requestSpecification,
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
         }
@@ -70,15 +56,6 @@ public class RequestSteps {
     @Given("I send a DELETE request to {string}")
     public void iSendARequestTo(final String endpoint) {
         response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
-    @When("I send a GET request to {string}")
-    public void iSendAGETRequestTo(final String endpoint) {
-        response = RequestManager.get(requestSpecification,
-                EndpointHelper.buildEndpoint(context, endpoint));
-    }
-
-    @Given("I send a DELETE request to {string}")
-    public void iSendARequestTo(final String endpoint) {
-        response = RequestManager.delete(requestSpecification,
                 EndpointHelper.buildEndpoint(context, endpoint));
     }
 
@@ -107,11 +84,6 @@ public class RequestSteps {
                     body);
         } else {
             response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
-            response = RequestManager.post(requestSpecification,
-                    EndpointHelper.buildEndpoint(context, endpoint),
-                    body);
-        } else {
-            response = RequestManager.put(requestSpecification,
                     EndpointHelper.buildEndpoint(context, endpoint),
                     body);
         }
