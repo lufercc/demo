@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.fundacionjala.pivotal.AppConstants.STATUS_CODE_OK;
-import static org.fundacionjala.pivotal.AppConstants.STORIES_END_POINT;
+import static org.fundacionjala.pivotal.AppConstants.PROJECTS_BASE_ENDPOINT;
 
 public class RequestSteps {
 
@@ -105,13 +105,14 @@ public class RequestSteps {
         }
     }
 
-    @Given("I had the following {string} of stories:")
-    public void iHadTheFollowingOfStories(final String key, final List<String> storyNames) {
+    @Given("I had the following {string} of {string}:")
+    public void iHadTheFollowingOfStories(final String key, final String endPoint, final List<String> storyNames) {
+        String finalEndPoint = PROJECTS_BASE_ENDPOINT.concat(endPoint);
         storyNames.forEach(name -> {
             Map<String, String> body = new HashMap<>();
             body.put(key, name);
             response = RequestManager.post(requestSpecification,
-                    EndpointHelper.buildEndpoint(context, STORIES_END_POINT),
+                    EndpointHelper.buildEndpoint(context, finalEndPoint),
                     body);
             iValidateTheResponseHasStatusCode(STATUS_CODE_OK);
         });

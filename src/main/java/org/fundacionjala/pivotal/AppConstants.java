@@ -5,5 +5,5 @@ public final class AppConstants {
     }
 
     public static final int STATUS_CODE_OK = 200;
-    public static final String STORIES_END_POINT = "/projects/{P.id}/stories";
+    public static final String PROJECTS_BASE_ENDPOINT = "/projects/";
 }

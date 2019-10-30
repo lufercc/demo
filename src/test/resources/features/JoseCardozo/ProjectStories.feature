@@ -25,7 +25,7 @@ Feature: Stories /projects/{project_id}/stories
 
   @GetStory
   Scenario: Get Stories from a project
-    Given I had the following "name" of stories:
+    Given I had the following "name" of "{P.id}/stories":
       | Story1 |
       | Story2 |
     When I send a GET request to "/projects/{P.id}/stories"
