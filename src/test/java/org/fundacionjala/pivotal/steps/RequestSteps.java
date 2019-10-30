@@ -31,12 +31,10 @@ public class RequestSteps {
             response = RequestManager.post(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
-        }
-        else if ("GET".equalsIgnoreCase(httpMethod)) {
+        } else if ("GET".equalsIgnoreCase(httpMethod)) {
             response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint));
-        }
-        else {
+        } else {
             response = RequestManager.put(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint),
                     jsonBody);
@@ -95,22 +93,23 @@ public class RequestSteps {
     }
 
     @cucumber.api.java.en.And("I validate the response contains the values equals to json file {string}")
-    public void iValidateTheResponseContainsTheValuesEqualsToJsonFile(String jsonPath) {
+    public void iValidateTheResponseContainsTheValuesEqualsToJsonFile(final String jsonPath) {
         JSONObject jsonBody = JsonHelper.getJsonObject("src/test/resources/".concat(jsonPath));
-        for (Object attribute : jsonBody.keySet()){
+        for (Object attribute : jsonBody.keySet()) {
             String expectedValue = jsonBody.get(attribute).toString();
-            String actualValue = response.jsonPath().getString((String)attribute);
+            String actualValue = response.jsonPath().getString((String) attribute);
             Assert.assertEquals(actualValue, expectedValue);
         }
 
     }
+
     @Given("I send a {string} request with no body to {string}")
     public void iSendARequestwithNoBodyTo(final String httpMethod, final String endpoint) {
-        if ("GET".equalsIgnoreCase(httpMethod)){
+        if ("GET".equalsIgnoreCase(httpMethod)) {
             response = RequestManager.get(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint));
 
-        } else if ("DELETE".equalsIgnoreCase(httpMethod)){
+        } else if ("DELETE".equalsIgnoreCase(httpMethod)) {
             response = RequestManager.delete(RequestSpecFactory.getRequestSpec("pivotal"),
                     EndpointHelper.buildEndpoint(context, endpoint));
         }
