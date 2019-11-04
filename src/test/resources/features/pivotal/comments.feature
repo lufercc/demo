@@ -1,7 +1,8 @@
 Feature: Comments
 
-  Scenario: PUT comment
-    Given I send a "POST" request to "/projects" with json body
+  Background:
+    Given I use the "pivotal" service and the "owner" account
+    And I send a "POST" request to "/projects" with json body
     """
     {
     "name": "Project created by cucumber"
@@ -22,6 +23,8 @@ Feature: Comments
     }
     """
     And I save the response as "C"
+
+  Scenario: PUT comment
     When I send a "PUT" request to "/projects/{P.id}/stories/{S.id}/comments/{C.id}" with json body
     """
     {
