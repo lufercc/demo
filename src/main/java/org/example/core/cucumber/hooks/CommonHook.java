@@ -1,14 +1,16 @@
-package org.fundacionjala.core.cucumber.hooks;
+package org.example.core.cucumber.hooks;
 
 import java.util.List;
 
 import io.cucumber.java.After;
 import io.restassured.specification.RequestSpecification;
 
-import org.fundacionjala.core.api.RequestManager;
-import org.fundacionjala.core.ScenarioContext;
+import org.example.core.ScenarioContext;
+import org.example.core.api.RequestManager;
 
 public class CommonHook {
+
+    public static final String CONTEXT_REQUEST_SPEC = "REQUEST_SPEC";
 
     private ScenarioContext context;
 
@@ -18,7 +20,7 @@ public class CommonHook {
 
     @After(value = "@cleanData")
     public void afterScenario() {
-        RequestSpecification requestSpec = (RequestSpecification) context.get("REQUEST_SPEC");
+        RequestSpecification requestSpec = (RequestSpecification) context.get(CONTEXT_REQUEST_SPEC);
         List<String> endpoints = context.getEndpoints();
         for (String endpoint : endpoints) {
             RequestManager.delete(requestSpec, endpoint);

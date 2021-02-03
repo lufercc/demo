@@ -1,4 +1,4 @@
-package org.fundacionjala.core;
+package org.example.core;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,17 +12,20 @@ import org.json.simple.parser.ParseException;
 
 public final class JsonHelper {
 
+    public static final String MSG_NOT_POSSIBLE_TO_READ_JSON =
+            "Not possible to read json file";
+
     private JsonHelper() {
     }
 
     public static JSONObject getJsonObject(final String configJsonPath) {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         JSONParser parser = new JSONParser();
         try (InputStream inputStream = new FileInputStream(configJsonPath)) {
             Reader fileReader = new InputStreamReader(inputStream);
             jsonObject = (JSONObject) parser.parse(fileReader);
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(MSG_NOT_POSSIBLE_TO_READ_JSON);
         }
         return jsonObject;
     }
