@@ -1,9 +1,10 @@
-package org.example.pivotal;
+package org.example.core;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import io.cucumber.java.af.En;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
@@ -67,6 +68,20 @@ public final class RequestSpecFactory {
         requestSpecMap.put("trello", () -> getRequestSpecTrello(account));
         requestSpecMap.put("sfdc", () -> getRequestSpecSFDC(account));
         return requestSpecMap;
+    }
+
+    /**
+     *
+     * @param serviceName LFC
+     * @param account
+     * @return
+     */
+    public static RequestSpecification buildRequestSpecification(final String service){
+        RequestSpecification requestSpecification = (RequestSpecification) new RequestSpecBuilder()
+                .setBaseUri(ENV.getValue(service+".baseUri"))
+                .addHeaders(ENV.getValuesAsMap("header"))
+                .build();
+        return getRequestWithLogger(requestSpecification);
     }
 
     public static RequestSpecification getRequestSpec(final String serviceName, final String account) {

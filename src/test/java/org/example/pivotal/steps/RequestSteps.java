@@ -4,7 +4,7 @@ import io.cucumber.java.en.Given;
 import io.restassured.specification.RequestSpecification;
 
 import org.example.core.ScenarioContext;
-import org.example.pivotal.RequestSpecFactory;
+import org.example.core.RequestSpecFactory;
 
 public class RequestSteps {
 

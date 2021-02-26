@@ -17,7 +17,7 @@ Feature: Boards
     "name": "Board0001 updated by cucumber"
     }
     """
-    Then I validate the response has status code 200
+    Then I validate the response has status code 400
     And I validate the response contains "name" equals "Board0001 updated by cucumber"
     And I send a DELETE request to "/boards/{P.id}"
     And I validate the response has status code 200

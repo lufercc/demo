@@ -10,6 +10,7 @@ import io.cucumber.java.en.When;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.example.core.api.RequestFactory;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 
@@ -110,5 +111,20 @@ public class RequestSteps {
                 Assert.assertEquals(String.valueOf(responseMap.get(data.getKey())), data.getValue());
             }
         }
+    }
+
+    @Given("I use the {string} service")
+    public void iUseTheService(String service) {
+        RequestSpecification requestSpecification = RequestFactory.buildRequestSpecification(service);
+        context.set(CommonHook.CONTEXT_REQUEST_SPEC, requestSpecification);
+    }
+
+    @When("I set a {string} request to {string}")
+    public void iSetARequestTo(final Method method, final String endpoint) {
+        RequestSpecification requestSpecification = (RequestSpecification) context.get(CommonHook.CONTEXT_REQUEST_SPEC);
+        String builtEndpoint = DynamicIdHelper.buildEndpoint(context, endpoint);
+        response = RequestManager.doRequest(method, requestSpecification, builtEndpoint);
+        context.set(KEY_LAST_ENDPOINT, builtEndpoint);
+        context.set(KEY_LAST_RESPONSE, response);
     }
 }

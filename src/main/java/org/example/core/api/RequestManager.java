@@ -33,10 +33,13 @@ public final class RequestManager {
         return patch(requestSpecification, endpoint, body);
     }
 
+
     public static Response doRequest(final Method httpMethod, final RequestSpecification requestSpecification,
                                      final String endpoint) {
         if (Method.GET.equals(httpMethod)) {
             return get(requestSpecification, endpoint);
+        } else if (Method.POST.equals(httpMethod)) {
+            return post(requestSpecification, endpoint, "");
         }
         return delete(requestSpecification, endpoint);
     }
